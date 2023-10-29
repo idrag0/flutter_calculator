@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/views/homeView.dart';
 
 // Stateless Widget
 // Staefulll widget
 
-class Myapp extends StatelessWidget {
-  const Myapp({
+class MyApp extends StatelessWidget {
+  const MyApp({
     super.key,
   });
 
@@ -12,18 +13,10 @@ class Myapp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Flutter App",
-      home: Material(
-        child: Container(
-          color: Colors.yellow,
-          child: Center(child: Text(
-            "Hello Bro"
-            style: TextStyle(
-              fontSize: 40,
-              color: Colors.white, 
-              fontWeight: FontWeight.bold
-            ))),
-        ),
+      theme: ThemeData(
+        primarySwatch: Colors.lightGreen,
       ),
+      home: HomeView(),
     );
   }
 }
