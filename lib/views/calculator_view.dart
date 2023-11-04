@@ -13,6 +13,8 @@ class _CalculatorViewState extends State<CalculatorView> {
   int y = 0;
   num z = 0;
 
+  late final AppLifecycleListener _listener;
+
   final DisplayOneControler = TextEditingController();
   final DisplayTwoControler = TextEditingController();
 
@@ -22,6 +24,36 @@ class _CalculatorViewState extends State<CalculatorView> {
     super.initState();
     DisplayOneControler.text = x.toString();
     DisplayTwoControler.text = y.toString();
+
+    _listener = AppLifecycleListener(
+      onShow: _onShow,
+      onHide: _onHide,
+      onResume: _onResume,
+      onDetach: _onDetach,
+      onInactive: _onInactive,
+      onPause: _onPause,
+      onRestart: _onRestart,
+      onStateChange: _onStateChange,
+    );
+  }
+
+  void _onShow() => print("onShow called");
+  void _onHide() => print("onHide called");
+  void _onResume() => print("onResume");
+  void _onDetach() => print("onDetach called");
+  void _onInactive() => print("onInactive");
+  void _onPause() => print("onPause called");
+  void _onRestart() => print("onRestart called");
+  void _onStateChange(AppLifecycleState state) {
+    print("onStateChange called with state: $state");
+  }
+
+  @override
+  void dispose() {
+    DisplayOneControler.dispose();
+    DisplayTwoControler.dispose();
+    _listener.dispose();
+    super.dispose();
   }
 
   @override
@@ -32,16 +64,23 @@ class _CalculatorViewState extends State<CalculatorView> {
         children: [
           // Calculator display
           CalculatorDiplay(
-              hint: "Enter Fist Number", controller: DisplayOneControler),
+              key: Key("displayOne"),
+              hint: "Enter Fist Number",
+              controller: DisplayOneControler),
           const SizedBox(
             height: 30,
           ),
           CalculatorDiplay(
-              hint: "Enter Second Number", controller: DisplayTwoControler),
+              key: Key("displayTwo"),
+              hint: "Enter Second Number",
+              controller: DisplayTwoControler),
           const SizedBox(
             height: 30,
           ),
-          Text(z.toString(),
+
+          Text(
+              key: Key("Result"),
+              z.toString(),
               style: TextStyle(
                 fontSize: 60,
                 fontWeight: FontWeight.bold,
